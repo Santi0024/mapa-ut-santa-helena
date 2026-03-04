@@ -77,78 +77,101 @@ export default function MapComponent() {
         </div>
       )}
 
-      {/* Leyenda de colores */}
-      <div className="absolute bottom-20 left-4 z-[1000] bg-white px-3 py-2 rounded-lg shadow-md">
-        <p className="text-xs font-bold text-gray-700 mb-1">Leyenda:</p>
-        <div className="text-xs space-y-1">
-          <div className="flex items-center gap-2">
-            <span className="w-3 h-3 bg-red-600 rounded-full"></span>
-            <span>Académico</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-3 h-3 bg-green-600 rounded-full"></span>
-            <span>Servicios</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-3 h-3 bg-blue-600 rounded-full"></span>
-            <span>Deportes</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-3 h-3 bg-orange-600 rounded-full"></span>
-            <span>Administrativo</span>
-          </div>
-        </div>
-      </div>
+      {/* Leyenda de colores - Solo en desktop */}
+<div className="absolute bottom-20 left-2 sm:left-4 z-[1000] bg-white/95 backdrop-blur px-2 sm:px-3 py-2 rounded-lg shadow-md hidden sm:block">
+  <p className="text-xs font-bold text-gray-700 mb-1">Leyenda:</p>
+  <div className="text-xs space-y-1">
+    <div className="flex items-center gap-2">
+      <span className="w-3 h-3 bg-red-600 rounded-full"></span>
+      <span>Académico</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <span className="w-3 h-3 bg-green-600 rounded-full"></span>
+      <span>Servicios</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <span className="w-3 h-3 bg-blue-600 rounded-full"></span>
+      <span>Deportes</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <span className="w-3 h-3 bg-orange-600 rounded-full"></span>
+      <span>Admin</span>
+    </div>
+  </div>
+</div>
+
+{/* Contador - Mejorado para móvil */}
+{searchTerm && (
+  <div className="absolute top-40 sm:top-44 left-2 sm:left-4 z-[1000] bg-white/95 backdrop-blur px-3 py-2 rounded-lg shadow-md">
+    <span className="text-xs sm:text-sm text-gray-600 font-medium">
+      {edificiosFiltrados.length} resultado{edificiosFiltrados.length !== 1 ? 's' : ''}
+    </span>
+  </div>
+)}
 
       {/* Mapa */}
       <MapContainer 
-        center={[4.427647, -75.213342]}
-        zoom={18}
-        minZoom={18}
-        maxZoom={18}
-        maxBounds={[
-          [4.425299, -75.218309],
-          [4.429995, -75.208191]
-        ]}
-        maxBoundsViscosity={0.5}
-        style={{ height: "100vh", width: "100%" }}
-        scrollWheelZoom={false}
-        zoomControl={false}
+  center={[4.427647, -75.213342]}
+  zoom={17}
+  minZoom={16}
+  maxZoom={18}
+  maxBounds={[
+    [4.425299, -75.218309],
+    [4.429995, -75.208191]
+  ]}
+  maxBoundsViscosity={0.5}
+  style={{ height: "100vh", width: "100%" }}
+  scrollWheelZoom={false}
+  zoomControl={false}
+  // Optimizaciones para móvil
+  tap={true}
+  tapTolerance={15}
+>
+  <ZoomControl position="bottomright" />
+  
+  <TileLayer
+    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    attribution='&copy; OpenStreetMap contributors'
+    maxZoom={18}
+  />
+  
+  {edificiosFiltrados.map((edificio) => (
+    <Marker 
+      key={edificio.id} 
+      position={edificio.coord}
+      icon={iconosPorTipo[edificio.tipo] || iconosPorTipo.academico}
+      // Mejor interacción táctil
+      eventHandlers={{
+        click: (e) => {
+          // En móvil, abrir popup automáticamente
+          e.target.openPopup();
+        }
+      }}
+    >
+      <Popup 
+        maxWidth={280}
+        minWidth={200}
+        className="custom-popup"
       >
-        <ZoomControl position="bottomright" />
-        
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; OpenStreetMap contributors'
-          maxZoom={18}
-        />
-        
-        {edificiosFiltrados.map((edificio) => (
-          <Marker 
-            key={edificio.id} 
-            position={edificio.coord}
-            icon={iconosPorTipo[edificio.tipo] || iconosPorTipo.academico}
-          >
-            <Popup>
-              <div className="text-center min-w-[220px]">
-                <h3 className={`font-bold text-lg ${coloresPorTipo[edificio.tipo]}`}>
-                  {edificio.nombre}
-                </h3>
-                <p className="text-sm text-gray-600 mt-1">{edificio.descripcion}</p>
-                <div className="mt-2 space-y-1">
-                  <span className="inline-block px-2 py-1 bg-gray-100 rounded text-xs text-gray-600">
-                    📍 {edificio.tipo}
-                  </span>
-                  <br />
-                  <span className="inline-block px-2 py-1 bg-gray-100 rounded text-xs text-gray-600">
-                    🕐 {edificio.horario}
-                  </span>
-                </div>
-              </div>
-            </Popup>
-          </Marker>
-        ))}
-      </MapContainer>
+        <div className="text-center min-w-[200px] p-1">
+          <h3 className={`font-bold text-lg ${coloresPorTipo[edificio.tipo]}`}>
+            {edificio.nombre}
+          </h3>
+          <p className="text-sm text-gray-600 mt-1">{edificio.descripcion}</p>
+          <div className="mt-2 space-y-1">
+            <span className="inline-block px-2 py-1 bg-gray-100 rounded text-xs text-gray-600">
+              📍 {edificio.tipo}
+            </span>
+            <br />
+            <span className="inline-block px-2 py-1 bg-gray-100 rounded text-xs text-gray-600">
+              🕐 {edificio.horario}
+            </span>
+          </div>
+        </div>
+      </Popup>
+    </Marker>
+  ))}
+</MapContainer>
     </div>
   );
 }

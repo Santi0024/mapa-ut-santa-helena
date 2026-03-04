@@ -1,14 +1,6 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* Reset básico */
 * {
@@ -17,13 +9,17 @@
   padding: 0;
 }
 
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
   overflow: hidden;
-  /* Prevenir zoom en iOS */
   touch-action: manipulation;
 }
 
@@ -31,7 +27,6 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  /* Prevenir selección de texto en móvil */
   -webkit-tap-highlight-color: transparent;
 }
 

@@ -1,0 +1,226 @@
+[
+  {
+    "id": 1,
+    "nombre": "Biblioteca Central Luis Ángel Arango",
+    "coord": [4.4285, -75.2145],
+    "descripcion": "Biblioteca principal de la universidad",
+    "tipo": "academico",
+    "horario": "Lun-Vie 7am-9pm, Sáb 8am-2pm"
+  },
+  {
+    "id": 2,
+    "nombre": "Bloque 02",
+    "coord": [4.4282, -75.2140],
+    "descripcion": "Salones de clase",
+    "tipo": "academico",
+    "horario": "Lun-Vie 6am-10pm"
+  },
+  {
+    "id": 3,
+    "nombre": "Bloque 05",
+    "coord": [4.4280, -75.2135],
+    "descripcion": "Salones de clase y oficinas",
+    "tipo": "academico",
+    "horario": "Lun-Vie 6am-10pm"
+  },
+  {
+    "id": 4,
+    "nombre": "Bloque 13",
+    "coord": [4.4275, -75.2138],
+    "descripcion": "Salones de clase",
+    "tipo": "academico",
+    "horario": "Lun-Vie 6am-10pm"
+  },
+  {
+    "id": 5,
+    "nombre": "Bloque 19",
+    "coord": [4.4270, -75.2142],
+    "descripcion": "Salones de clase",
+    "tipo": "academico",
+    "horario": "Lun-Vie 6am-10pm"
+  },
+  {
+    "id": 6,
+    "nombre": "Bloque 24",
+    "coord": [4.4278, -75.2150],
+    "descripcion": "Salones de clase",
+    "tipo": "academico",
+    "horario": "Lun-Vie 6am-10pm"
+  },
+  {
+    "id": 7,
+    "nombre": "Bloque 28",
+    "coord": [4.4272, -75.2155],
+    "descripcion": "Salones de clase",
+    "tipo": "academico",
+    "horario": "Lun-Vie 6am-10pm"
+  },
+  {
+    "id": 8,
+    "nombre": "Bloque 30",
+    "coord": [4.4268, -75.2158],
+    "descripcion": "Salones de clase",
+    "tipo": "academico",
+    "horario": "Lun-Vie 6am-10pm"
+  },
+  {
+    "id": 9,
+    "nombre": "Bloque 31",
+    "coord": [4.4275, -75.2162],
+    "descripcion": "Salones de clase",
+    "tipo": "academico",
+    "horario": "Lun-Vie 6am-10pm"
+  },
+  {
+    "id": 10,
+    "nombre": "Bloque 32",
+    "coord": [4.4280, -75.2165],
+    "descripcion": "Salones de clase",
+    "tipo": "academico",
+    "horario": "Lun-Vie 6am-10pm"
+  },
+  {
+    "id": 11,
+    "nombre": "Bloque A-33",
+    "coord": [4.4265, -75.2125],
+    "descripcion": "Salones de clase",
+    "tipo": "academico",
+    "horario": "Lun-Vie 6am-10pm"
+  },
+  {
+    "id": 12,
+    "nombre": "Bloque B-33",
+    "coord": [4.4262, -75.2120],
+    "descripcion": "Salones de clase",
+    "tipo": "academico",
+    "horario": "Lun-Vie 6am-10pm"
+  },
+  {
+    "id": 13,
+    "nombre": "Comedor Universitario",
+    "coord": [4.4273, -75.2130],
+    "descripcion": "Servicio de alimentación para estudiantes",
+    "tipo": "servicio",
+    "horario": "Lun-Vie 6am-4pm"
+  },
+  {
+    "id": 14,
+    "nombre": "Clínica Veterinaria",
+    "coord": [4.4290, -75.2140],
+    "descripcion": "Atención de mascotas y animales",
+    "tipo": "servicio",
+    "horario": "Lun-Vie 8am-5pm"
+  },
+  {
+    "id": 15,
+    "nombre": "Bienestar Universitario",
+    "coord": [4.4276, -75.2128],
+    "descripcion": "Salud, psicología, deportes, cultura",
+    "tipo": "servicio",
+    "horario": "Lun-Vie 7am-4pm"
+  },
+  {
+    "id": 16,
+    "nombre": "Rectoría",
+    "coord": [4.4260, -75.2145],
+    "descripcion": "Oficinas administrativas principales",
+    "tipo": "administrativo",
+    "horario": "Lun-Vie 8am-5pm"
+  },
+  {
+    "id": 17,
+    "nombre": "Gimnasio de Estudiantes",
+    "coord": [4.4270, -75.2165],
+    "descripcion": "Zona deportiva cubierta",
+    "tipo": "deportivo",
+    "horario": "Lun-Vie 6am-9pm"
+  },
+  {
+    "id": 18,
+    "nombre": "Cancha de Fútbol",
+    "coord": [4.4265, -75.2105],
+    "descripcion": "Campo de fútbol principal",
+    "tipo": "deportivo",
+    "horario": "Lun-Dom 6am-9pm"
+  },
+  {
+    "id": 19,
+    "nombre": "Laboratorio de Maderas",
+    "coord": [4.4265, -75.2170],
+    "descripcion": "Laboratorio de ingeniería forestal",
+    "tipo": "academico",
+    "horario": "Lun-Vie 7am-6pm"
+  },
+  {
+    "id": 20,
+    "nombre": "Teatrino",
+    "coord": [4.4274, -75.2152],
+    "descripcion": "Espacio cultural y presentaciones",
+    "tipo": "cultural",
+    "horario": "Lun-Vie 8am-8pm"
+  },
+  {
+    "id": 21,
+    "nombre": "Salón de Artes Plásticas",
+    "coord": [4.4258, -75.2148],
+    "descripcion": "Talleres de arte",
+    "tipo": "academico",
+    "horario": "Lun-Vie 7am-7pm"
+  },
+  {
+    "id": 22,
+    "nombre": "Facultad de Ciencias",
+    "coord": [4.4282, -75.2115],
+    "descripcion": "Oficinas y laboratorios de ciencias",
+    "tipo": "academico",
+    "horario": "Lun-Vie 7am-8pm"
+  },
+  {
+    "id": 23,
+    "nombre": "Facultad de Ingeniería Forestal",
+    "coord": [4.4278, -75.2110],
+    "descripcion": "Oficinas y laboratorios",
+    "tipo": "academico",
+    "horario": "Lun-Vie 7am-8pm"
+  },
+  {
+    "id": 24,
+    "nombre": "Facultad de Ciencias Humanas",
+    "coord": [4.4285, -75.2120],
+    "descripcion": "Oficinas y salones",
+    "tipo": "academico",
+    "horario": "Lun-Vie 7am-8pm"
+  },
+  {
+    "id": 25,
+    "nombre": "Cafetería La María",
+    "coord": [4.4283, -75.2125],
+    "descripcion": "Punto de alimentación",
+    "tipo": "servicio",
+    "horario": "Lun-Vie 6am-5pm"
+  },
+  {
+    "id": 26,
+    "nombre": "Residencias Universitarias",
+    "coord": [4.4295, -75.2155],
+    "descripcion": "Alojamiento para estudiantes",
+    "tipo": "servicio",
+    "horario": "24 horas"
+  },
+  {
+    "id": 27,
+    "nombre": "Jardín Botánico",
+    "coord": [4.4250, -75.2135],
+    "descripcion": "Colección de plantas nativas",
+    "tipo": "cultural",
+    "horario": "Lun-Vie 8am-5pm"
+  },
+  {
+    "id": 28,
+    "nombre": "Parqueadero Principal",
+    "coord": [4.4290, -75.2170],
+    "descripcion": "Estacionamiento para vehículos",
+    "tipo": "servicio",
+    "horario": "24 horas"
+  }
+]

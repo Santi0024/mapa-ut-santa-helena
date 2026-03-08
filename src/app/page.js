@@ -1,6 +1,5 @@
 import dynamic from 'next/dynamic';
 
-// Importa MapComponent solo en el cliente (sin SSR)
 const MapComponent = dynamic(() => import('@/components/MapComponent'), {
   ssr: false,
   loading: () => (
@@ -11,6 +10,5 @@ const MapComponent = dynamic(() => import('@/components/MapComponent'), {
 });
 
 export default function Home() {
-  // ✅ Sin contenedor extra: MapComponent ya maneja todo el layout
   return <MapComponent />;
 }

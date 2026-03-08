@@ -6,6 +6,30 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import SearchBar from './SearchBar';
 import edificiosData from '../data/edificios.json';
+// Icono personalizado para ubicación del usuario
+const userIcon = L.divIcon({
+  className: 'user-marker',
+  html: `
+    <div style="
+      width: 16px;
+      height: 16px;
+      background: #3b82f6;
+      border: 3px solid white;
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+      animation: pulse 2s infinite;
+    "></div>
+    <style>
+      @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.5); opacity: 0.5; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+    </style>
+  `,
+  iconSize: [16, 16],
+  iconAnchor: [8, 8]
+});
 
 // Iconos por categoría (usando marcador por defecto si no hay imagen)
 const crearIcono = (color) => {
@@ -163,15 +187,18 @@ export default function MapComponent() {
         />
         
         {/* Marcador del usuario */}
-        {userLocation && (
-          <Marker position={userLocation}>
-            <Popup>
-              <div className="text-center">
-                <h3 className="font-bold text-blue-700">📍 Tú estás aquí</h3>
-              </div>
-            </Popup>
-          </Marker>
-        )}
+{userLocation && (
+  <Marker position={userLocation} icon={userIcon}>
+    <Popup>
+      <div className="text-center">
+        <h3 className="font-bold text-blue-700">📍 Tú estás aquí</h3>
+        <p className="text-xs text-gray-500 mt-1">
+          {userLocation[0].toFixed(4)}, {userLocation[1].toFixed(4)}
+        </p>
+      </div>
+    </Popup>
+  </Marker>
+)}
         
         {/* Edificios con distancia */}
         {edificiosFiltrados.map((edificio) => {
@@ -222,3 +249,29 @@ export default function MapComponent() {
     </div>
   );
 }
+// Obtener ubicación del usuario
+useEffect(() => {
+  console.log('🔍 Solicitando ubicación...');
+  
+  if ('geolocation' in navigator) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const coords = [position.coords.latitude, position.coords.longitude];
+        console.log('✅ Ubicación obtenida:', coords);
+        setUserLocation(coords);
+      },
+      (error) => {
+        console.log('❌ Error de ubicación:', error.message);
+        setLocationError('Ubicación no disponible: ' + error.message);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      }
+    );
+  } else {
+    console.log('❌ Geolocalización no soportada');
+    setLocationError('Geolocalización no soportada');
+  }
+}, []);

@@ -11,9 +11,6 @@ const MapComponent = dynamic(() => import('@/components/MapComponent'), {
 });
 
 export default function Home() {
-  return (
-    <div className="relative h-screen">
-      <MapComponent />
-    </div>
-  );
+  // ✅ Sin contenedor extra: MapComponent ya maneja todo el layout
+  return <MapComponent />;
 }

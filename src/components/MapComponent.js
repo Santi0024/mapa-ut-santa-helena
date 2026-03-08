@@ -280,21 +280,21 @@ export default function MapComponent() {
                   <p className="text-xs text-gray-600 mt-1">{edificio.descripcion}</p>
                   
                   {distancia !== null && (
-                    <div className="mt-2 flex flex-wrap justify-center gap-1">
-                      <span className="inline-block px-2 py-1 bg-blue-100 rounded-full text-[10px] text-blue-700 font-medium">
-                        📍 {distancia < 1000 ? `${Math.round(distancia)}m` : `${(distancia/1000).toFixed(1)}km`}
-                      </span>
-                      <span className="inline-block px-2 py-1 bg-gray-100 rounded text-[10px] text-gray-600">
-                        🚶 ~{Math.round(distancia / 80)}min
-                      </span>
-                    </div>
-                  )}
+  <div className="mt-2 flex flex-wrap justify-center gap-1">
+    <span key="distancia-valor" className="inline-block px-2 py-1 bg-blue-100 rounded-full text-[10px] text-blue-700 font-medium">
+      📍 {distancia < 1000 ? `${Math.round(distancia)}m` : `${(distancia/1000).toFixed(1)}km`}
+    </span>
+    <span key="distancia-tiempo" className="inline-block px-2 py-1 bg-gray-100 rounded text-[10px] text-gray-600">
+      🚶 ~{Math.round(distancia / 80)}min
+    </span>
+  </div>
+)}
                   
                   <div className="mt-2 flex flex-wrap justify-center gap-1">
-                    <span className="inline-block px-2 py-1 bg-gray-100 rounded text-[10px] text-gray-600">
-                      {edificio.tipo}
-                    </span>
-                  </div>
+  <span key={`tipo-${edificio.id}`} className="inline-block px-2 py-1 bg-gray-100 rounded text-[10px] text-gray-600">
+    {edificio.tipo}
+  </span>
+</div>
                 </div>
               </Popup>
             </Marker>

@@ -169,39 +169,140 @@ export default function MapComponent() {
             ? calcularDistancia(userLocation[0], userLocation[1], edificio.coord[0], edificio.coord[1])
             : null;
 
+            return (
+    <div className="relative h-screen w-screen overflow-hidden">
+      {/* Barra de Búsqueda - Ajustada para móvil */}
+      <div className="absolute top-14 sm:top-16 left-2 right-2 sm:left-4 sm:right-4 z-[1000] pointer-events-none">
+        <div className="pointer-events-auto">
+          <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+        </div>
+      </div>
+      
+      {/* Contador de resultados - Más compacto en móvil */}
+      {searchTerm && (
+        <div className="absolute top-32 sm:top-36 left-2 sm:left-4 z-[1000] bg-white/95 backdrop-blur px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg shadow-md">
+          <span className="text-xs text-gray-600 font-medium">
+            {edificiosFiltrados.length} resultado{edificiosFiltrados.length !== 1 ? 's' : ''}
+          </span>
+        </div>
+      )}
+
+      {/* Estado de ubicación - Más compacto */}
+      {locationError && (
+        <div className="absolute top-32 sm:top-36 left-2 sm:left-4 z-[1000] bg-orange-100 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg shadow-md">
+          <span className="text-xs text-orange-700">⚠️ {locationError}</span>
+        </div>
+      )}
+
+      {/* Botón de ubicación - Posición optimizada para móvil */}
+      <button
+        onClick={handleLocate}
+        className={`absolute bottom-20 sm:bottom-24 right-3 sm:right-4 z-[1000] p-2.5 sm:p-3 rounded-full shadow-lg 
+                   ${userLocation ? 'bg-green-600 hover:bg-green-700' : 'bg-blue-600 hover:bg-blue-700'} 
+                   text-white transition-all active:scale-95 touch-manipulation`}
+        title="Mi ubicación"
+      >
+        📍
+      </button>
+
+      {/* Leyenda - Oculta en móvil para ahorrar espacio */}
+      <div className="absolute bottom-20 left-2 sm:left-4 z-[1000] bg-white/95 backdrop-blur px-2 sm:px-3 py-2 rounded-lg shadow-md hidden sm:block">
+        <p className="text-xs font-bold text-gray-700 mb-1">Leyenda:</p>
+        <div className="text-xs space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 bg-red-600 rounded-full"></span>
+            <span>Académico</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 bg-green-600 rounded-full"></span>
+            <span>Servicios</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 bg-blue-600 rounded-full"></span>
+            <span>Deportes</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 bg-orange-600 rounded-full"></span>
+            <span>Admin</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Mapa - Contenedor optimizado */}
+      <MapContainer 
+        center={userLocation || [4.427647, -75.213342]}
+        zoom={userLocation ? 18 : 17}
+        minZoom={16}
+        maxZoom={18}
+        maxBounds={[[4.425299, -75.218309], [4.429995, -75.208191]]}
+        maxBoundsViscosity={0.5}
+        style={{ height: "100dvh", width: "100vw" }}
+        scrollWheelZoom={false}
+        zoomControl={false}
+        tap={true}
+        tapTolerance={15}
+      >
+        <ZoomControl position="bottomright" />
+        
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; OpenStreetMap contributors'
+          maxZoom={18}
+        />
+        
+        {/* Marcador del usuario */}
+        {userLocation && (
+          <Marker position={userLocation} icon={userIcon}>
+            <Popup maxWidth={240} minWidth={180}>
+              <div className="text-center">
+                <h3 className="font-bold text-blue-700 text-sm">📍 Tú estás aquí</h3>
+                <p className="text-xs text-gray-500 mt-1">
+                  {userLocation[0].toFixed(4)}, {userLocation[1].toFixed(4)}
+                </p>
+              </div>
+            </Popup>
+          </Marker>
+        )}
+        
+        {/* Edificios con distancia */}
+        {edificiosFiltrados.map((edificio) => {
+          const distancia = userLocation 
+            ? calcularDistancia(userLocation[0], userLocation[1], edificio.coord[0], edificio.coord[1])
+            : null;
+
           return (
             <Marker key={edificio.id} position={edificio.coord}>
-              <Popup maxWidth={280} minWidth={200}>
-                <div className="text-center min-w-[200px] p-1">
-                  <h3 className={`font-bold text-lg ${coloresPorTipo[edificio.tipo]}`}>
+              <Popup maxWidth={240} minWidth={180}>
+                <div className="text-center min-w-[180px] p-1">
+                  <h3 className={`font-bold text-base ${coloresPorTipo[edificio.tipo]}`}>
                     {edificio.nombre}
                   </h3>
-                  <p className="text-sm text-gray-600 mt-1">{edificio.descripcion}</p>
+                  <p className="text-xs text-gray-600 mt-1">{edificio.descripcion}</p>
                   
                   {distancia !== null && (
-                    <div className="mt-2">
-                      <span className="inline-block px-3 py-1 bg-blue-100 rounded-full text-xs text-blue-700 font-medium">
-                        📍 {distancia < 1000 ? `${Math.round(distancia)}m` : `${(distancia/1000).toFixed(2)}km`}
+                    <div className="mt-2 flex flex-wrap justify-center gap-1">
+                      <span className="inline-block px-2 py-1 bg-blue-100 rounded-full text-[10px] text-blue-700 font-medium">
+                        📍 {distancia < 1000 ? `${Math.round(distancia)}m` : `${(distancia/1000).toFixed(1)}km`}
                       </span>
-                      <span className="inline-block px-2 py-1 ml-1 bg-gray-100 rounded text-xs text-gray-600">
-                        🚶 ~{Math.round(distancia / 80)} min
+                      <span className="inline-block px-2 py-1 bg-gray-100 rounded text-[10px] text-gray-600">
+                        🚶 ~{Math.round(distancia / 80)}min
                       </span>
                     </div>
                   )}
                   
-                  <div className="mt-2 space-y-1">
-                    <span className="inline-block px-2 py-1 bg-gray-100 rounded text-xs text-gray-600">
-                      📍 {edificio.tipo}
-                    </span>
-                    <br />
-                    <span className="inline-block px-2 py-1 bg-gray-100 rounded text-xs text-gray-600">
-                      🕐 {edificio.horario}
+                  <div className="mt-2 flex flex-wrap justify-center gap-1">
+                    <span className="inline-block px-2 py-1 bg-gray-100 rounded text-[10px] text-gray-600">
+                      {edificio.tipo}
                     </span>
                   </div>
                 </div>
               </Popup>
             </Marker>
           );
+        })}
+      </MapContainer>
+    </div>
+  );
         })}
       </MapContainer>
     </div>

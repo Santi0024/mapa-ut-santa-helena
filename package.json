@@ -1,0 +1,27 @@
+{
+  "name": "mapa-ut",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "leaflet-rotate": "^0.2.8",
+    "lucide-react": "^0.576.0",
+    "next": "14.2.35",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-leaflet": "^4.2.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.27",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.35",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^3.4.17"
+  }
+}

@@ -1,0 +1,114 @@
+[
+  {
+    "id": 1,
+    "nombre": "🏫 Bloque 01 / Centro Cultural",
+    "coord": [4.428434, -75.212995],
+    "polygon": [
+      
+      [4.428329, -75.213263],
+      [4.428514, -75.213258],
+      [4.428524, -75.212700],
+      [4.428335, -75.212695],
+      [4.428329, -75.213263]  
+      
+    ],
+    "descripcion": "Bloque 01 de la universidad",
+    "tipo": "Academico",
+    "horario": "Lun-Vie 7am-9pm, Sáb 8am-2pm"
+  },
+  {
+    "id": 2,
+    "nombre": "🏫 Bloque 02",
+    "coord": [4.428110, -75.212169],
+    "polygon": [
+      
+      [4.428166, -75.212349],
+      [4.428166, -75.212287],
+      [4.428194, -75.212283],
+      [4.428200, -75.212075],
+      [4.428185, -75.212074],
+      [4.428186, -75.211962],
+      [4.428074, -75.211957],
+      [4.428065, -75.212347],
+      [4.428166, -75.212349]
+      
+    ],
+    "descripcion": "Bloque 02 de la universidad",
+    "tipo": "Servicio",
+    "horario": "Lun-Vie 7am-9pm, Sáb 8am-2pm"
+
+   },
+   {
+    "id": 3,
+    "nombre": "🏫 Bloque 03",
+    "coord": [4.428070, -75.212971],
+    "polygon": [
+      
+      [4.428111, -75.213190],
+      [4.428110, -75.212730],
+      [4.428035, -75.212729],
+      [4.428035, -75.213190],
+      [4.428111, -75.213190]
+      
+    ],
+    "descripcion": "bloque 03 de la universidad",
+    "tipo": "Servicio",
+    "horario": "Lun-Vie 7am-9pm, Sáb 8am-2pm"
+
+   },
+   {
+    "id": 4,
+    "nombre": "🏫 Bloque 04",
+    "coord": [4.427891, -75.212781],
+    "polygon": [
+      
+      [4.427828, -75.212384],
+      [4.427934, -75.212390],
+      [4.427922, -75.212578],
+      [4.427815, -75.212572],
+      [4.427828, -75.212384]
+    ],
+    "descripcion": "bloque 04 de la universidad",
+    "tipo": "Servicio",
+    "horario": "Lun-Vie 7am-9pm, Sáb 8am-2pm"
+
+   },
+   {
+    "id": 5,
+    "nombre": "🏫 Bloque 05",
+    "coord": [4.427872, -75.212781],
+    "polygon": [
+      
+      [4.427906, -75.212906],
+      [4.427925, -75.212631],
+      [4.427831, -75.212625],
+      [4.427813, -75.212901],
+      [4.427906, -75.212906]
+           
+    ],
+    "descripcion": "bloque 05 de la universidad",
+    "tipo": "Servicio",
+    "horario": "Lun-Vie 7am-9pm, Sáb 8am-2pm"
+
+  },
+  {
+    "id": 6,
+    "nombre": "🏫 Bloque 06",
+    "coord": [4.427696, -75.212787],
+    "polygon": [
+      
+      [4.427794, -75.212647],
+      [4.427625, -75.212639],
+      [4.427609, -75.212914],
+      [4.427774, -75.212925],
+      [4.427794, -75.212647]
+           
+    ],
+    "descripcion": "bloque 06 de la universidad",
+    "tipo": "Cultural",
+    "horario": "Lun-Vie 7am-9pm, Sáb 8am-2pm"
+
+  }
+
+]
+

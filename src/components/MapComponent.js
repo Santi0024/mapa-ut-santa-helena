@@ -214,8 +214,8 @@ export default function MapComponent() {
         <MapContainer 
           center={[4.4269, -75.2132]}
           zoom={18}
-          minZoom={15}
-          maxZoom={19}
+          minZoom={17}
+          maxZoom={20}
           rotate={true}
           bearing={0} // Permite rotar el mapa
           maxBounds={[[4.425299, -75.218309], [4.429995, -75.208191]]}
@@ -233,21 +233,35 @@ export default function MapComponent() {
         
                  {/* MAPA */}
                 <TileLayer
-                 attribution='&copy; OpenStreetMap contributors'
-                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                 maxZoom={19}    
+                  attribution='Tiles &copy; Esri'
+                  url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+                  minZoom={17}
+                  maxZoom={20}
+                   maxNativeZoom={19}
+
                   
           />     {/* CONTORNO DEL CAMPUS CON COLOR */}
                    <Polygon
                    positions={contornoUT}
+                   interactive={false}
                    pathOptions={{
                    color: "#a7f0f5",
                    weight: 4,
                    fillColor: "red",
-                  fillOpacity: 0.8
+                  fillOpacity: 0.15
                 }}  
-           ></Polygon>
 
+            />
+                  <Polygon
+                  positions={contornoUT}
+                  interactive={false}
+                  pathOptions={{
+                  color: "#22c1f1",
+                  weight: 4,
+                  fillColor: "#a7f0f5",
+                  fillOpacity: 0.15
+                    }}
+            />                   
           {/* Marcador del usuario (solo si está en el campus) */}
           {userLocation && (
             <Marker position={userLocation} icon={userIcon}>
@@ -259,7 +273,7 @@ export default function MapComponent() {
                   </p>
                 </div>
               </Popup>
-            </Marker>
+            </Marker>        
           )}
           
           {/* Edificios */}
@@ -277,19 +291,36 @@ export default function MapComponent() {
               const colorTipo = coloresPorTipo[tipoLower] || '#6b7280'; // Gris por defecto
 
             return (
+           <>   
+                   {/* SOMBRA */}
+              <Polygon
+                positions={edificio.polygon.map(([lat, lng]) => [
+                 lat - 0.00001,
+                 lng + 0.00001
+               ])}
+                   pathOptions={{
+                   color: "black",
+                   weight: 4,
+                   fillColor: "gray",
+                   fillOpacity: 0.1
+                  }}
+               />
+              
               <Polygon  
                 key={edificio.id}
                 positions={edificio.polygon}
+                className="polygon-shadow" // Agrega clase para sombra
                 pathOptions={{
                   color: colorTipo,
                   weight: 2,
                   fillColor: colorTipo,
-                  fillOpacity: 0.8
-                }}
-
-             > <Popup maxWidth={190} minWidth={100}>
+                  fillOpacity: 0.8,
+                  
+                }}                           
+                  
+            >  <Popup maxWidth={125} minWidth={100}>
                   <div style={{ textAlign: "center",
-                    width: "180px",
+                    width: "115px",
                     
                 }}>
                   <h3 style={{ fontSize: "15px", fontWeight: "bold", color: "#000" }}> {edificio.nombre} </h3>              
@@ -301,10 +332,8 @@ export default function MapComponent() {
                        </p>                    
                   </div>
               </Popup>
-             </Polygon>
-
-           
-            );
+             </Polygon>                                  
+            </>);
           })}
         </MapContainer>
       </div>

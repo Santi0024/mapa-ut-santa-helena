@@ -15,7 +15,7 @@ function Navbar() {
           className="object-contain"
         />
         <span className="font-bold text-red-700 text-lg hidden sm:block">
-          Mapa UT
+          UTMaps - Mapa Interactivo de la UT Santa Helena
         </span>
       </div>
       

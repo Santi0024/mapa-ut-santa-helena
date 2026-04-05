@@ -1,20 +1,54 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, ZoomControl } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, ZoomControl, Polygon } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+});
+import 'leaflet-rotate';
 import SearchBar from './SearchBar';
 import edificiosData from '../data/edificios.json';
 
-// Colores por categoría
+// Colores por categoría cambia letra y color del poligono
 const coloresPorTipo = {
-  academico: 'text-red-700',
-  servicio: 'text-green-700',
-  deportivo: 'text-blue-700',
-  administrativo: 'text-orange-700',
-  cultural: 'text-purple-700'
+  academico: '#1c42fe',
+  servicio: '#ffee06',
+  deportivo: '#3b82f6',
+  administrativo: '#f59e0b',
+  cultural: '#8b5cf6'
 };
+
+// CONTORNO DEL CAMPUS - Coordenadas del polígono que delimita el campus
+const contornoUT = [
+  [4.426091, -75.216219],
+  [4.427244, -75.216404],
+  [4.427685, -75.216125],
+  [4.428142, -75.216200],
+  [4.428482, -75.214972],
+  [4.429035, -75.214087],
+  [4.429185, -75.214122],
+  [4.429418, -75.213714],
+  [4.428562, -75.213499],
+  [4.428530, -75.211633],
+  [4.428452, -75.211214],
+  [4.427848, -75.210222],
+  [4.428067, -75.210114],
+  [4.427821, -75.209669], 
+  [4.427827, -75.209087],
+  [4.427142, -75.209101],
+  [4.427083, -75.210713],
+  [4.426008, -75.212089],
+  [4.426011, -75.212534], 
+  [4.426096, -75.216216],
+  [4.426091, -75.216219]
+];
+
 
 // Función para calcular distancia
 function calcularDistancia(lat1, lon1, lat2, lon2) {
@@ -120,6 +154,7 @@ export default function MapComponent() {
         <div className="absolute top-14 sm:top-16 left-2 right-2 sm:left-4 sm:right-4 pointer-events-auto">
           <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
         </div>
+      
         
         {/* Contador de resultados */}
         {searchTerm && (
@@ -151,51 +186,86 @@ export default function MapComponent() {
           <p className="text-xs font-bold text-gray-700 mb-1">Leyenda:</p>
           <div className="text-xs space-y-1">
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 bg-red-600 rounded-full"></span>
+              <span className="w-3 h-3 rounded-full" style={{ backgroundColor: coloresPorTipo.academico }}></span>
               <span>Académico</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 bg-green-600 rounded-full"></span>
+              <span className="w-3 h-3 rounded-full" style={{ backgroundColor: coloresPorTipo.servicio }}></span>
               <span>Servicios</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 bg-blue-600 rounded-full"></span>
-              <span>Deportes</span>
+              <span className="w-3 h-3 rounded-full" style={{ backgroundColor: coloresPorTipo.deportivo }}></span>
+              <span>Deportivo</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 bg-orange-600 rounded-full"></span>
-              <span>Admin</span>
+              <span className="w-3 h-3 rounded-full" style={{ backgroundColor: coloresPorTipo.administrativo }}></span>
+              <span>Administrativo</span>
             </div>
+              <div className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full" style={{ backgroundColor: coloresPorTipo.cultural }}></span>
+              <span>Cultural</span>
           </div>
         </div>
-        
+       </div> 
       </div>
-
+        
       {/* MAPA */}
       <div className="absolute inset-0 z-0">
         <MapContainer 
-          center={[4.427647, -75.213342]}
-          zoom={17}
-          minZoom={16}
-          maxZoom={18}
+          center={[4.4269, -75.2132]}
+          zoom={18}
+          minZoom={17}
+          maxZoom={20}
+          rotate={true}
+          bearing={0} // Permite rotar el mapa
           maxBounds={[[4.425299, -75.218309], [4.429995, -75.208191]]}
           maxBoundsViscosity={0.5}
           style={{ height: "100%", width: "100%" }}
-          scrollWheelZoom={false}
+          scrollWheelZoom={true}
           zoomControl={false}
+           whenCreated={(map) => {
+           map.on("click", (e) => {
+           setUserLocation([e.latlng.lat, e.latlng.lng]);
+    });
+  }}
         >
           <ZoomControl position="bottomright" />
-          
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; OpenStreetMap contributors'
-            maxZoom={18}
-          />
-          
+        
+                 {/* MAPA */}
+                <TileLayer
+                  attribution='Tiles &copy; Esri'
+                  url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+                  minZoom={17}
+                  maxZoom={20}
+                   maxNativeZoom={19}
+
+                  
+          />     {/* CONTORNO DEL CAMPUS CON COLOR */}
+                   <Polygon
+                   positions={contornoUT}
+                   interactive={false}
+                   pathOptions={{
+                   color: "#a7f0f5",
+                   weight: 4,
+                   fillColor: "red",
+                  fillOpacity: 0.15
+                }}  
+
+            />
+                  <Polygon
+                  positions={contornoUT}
+                  interactive={false}
+                  pathOptions={{
+                  color: "#22c1f1",
+                  weight: 4,
+                  fillColor: "#a7f0f5",
+                  fillOpacity: 0.15
+                    }}
+            />                   
           {/* Marcador del usuario (solo si está en el campus) */}
           {userLocation && (
             <Marker position={userLocation} icon={userIcon}>
-              <Popup maxWidth={240} minWidth={180}>
+              <Popup maxWidth={300} minWidth={200}>
                 <div className="text-center">
                   <h3 className="font-bold text-blue-700 text-sm">📍 Tú estás aquí</h3>
                   <p className="text-xs text-gray-500 mt-1">
@@ -203,7 +273,7 @@ export default function MapComponent() {
                   </p>
                 </div>
               </Popup>
-            </Marker>
+            </Marker>        
           )}
           
           {/* Edificios */}
@@ -212,35 +282,58 @@ export default function MapComponent() {
               ? calcularDistancia(userLocation[0], userLocation[1], edificio.coord[0], edificio.coord[1])
               : null;
 
+            const tipoLower = edificio.tipo
+                 .toLowerCase()
+                 .normalize("NFD")
+                 .replace(/[\u0300-\u036f]/g, "") // quita tildes
+                 .trim();
+
+              const colorTipo = coloresPorTipo[tipoLower] || '#6b7280'; // Gris por defecto
+
             return (
-              <Marker key={edificio.id} position={edificio.coord}>
-                <Popup maxWidth={240} minWidth={180}>
-                  <div className="text-center min-w-[180px] p-1">
-                    <h3 className={`font-bold text-base ${coloresPorTipo[edificio.tipo]}`}>
-                      {edificio.nombre}
-                    </h3>
-                    <p className="text-xs text-gray-600 mt-1">{edificio.descripcion}</p>
+           <>   
+                   {/* SOMBRA */}
+              <Polygon
+                positions={edificio.polygon.map(([lat, lng]) => [
+                 lat - 0.00001,
+                 lng + 0.00001
+               ])}
+                   pathOptions={{
+                   color: "black",
+                   weight: 4,
+                   fillColor: "gray",
+                   fillOpacity: 0.1
+                  }}
+               />
+              
+              <Polygon  
+                key={edificio.id}
+                positions={edificio.polygon}
+                className="polygon-shadow" // Agrega clase para sombra
+                pathOptions={{
+                  color: colorTipo,
+                  weight: 2,
+                  fillColor: colorTipo,
+                  fillOpacity: 0.8,
+                  
+                }}                           
+                  
+            >  <Popup maxWidth={125} minWidth={100}>
+                  <div style={{ textAlign: "center",
+                    width: "115px",
                     
-                    {distancia !== null && (
-                      <div className="mt-2 flex flex-wrap justify-center gap-1">
-                        <span key={`dist-${edificio.id}-val`} className="inline-block px-2 py-1 bg-blue-100 rounded-full text-[10px] text-blue-700 font-medium">
-                          📍 {distancia < 1000 ? `${Math.round(distancia)}m` : `${(distancia/1000).toFixed(1)}km`}
-                        </span>
-                        <span key={`dist-${edificio.id}-time`} className="inline-block px-2 py-1 bg-gray-100 rounded text-[10px] text-gray-600">
-                          🚶 ~{Math.round(distancia / 80)}min
-                        </span>
-                      </div>
-                    )}
-                    
-                    <div className="mt-2 flex flex-wrap justify-center gap-1">
-                      <span key={`tipo-${edificio.id}`} className="inline-block px-2 py-1 bg-gray-100 rounded text-[10px] text-gray-600">
-                        {edificio.tipo}
-                      </span>
-                    </div>
+                }}>
+                  <h3 style={{ fontSize: "15px", fontWeight: "bold", color: "#000" }}> {edificio.nombre} </h3>              
+                   <p style={{ fontSize: "12px" }}> {edificio.tipo} </p>                                     
+                   <p style={{ fontSize: "12px", color: "green" }}>
+                      Horario: 6am - 9pm </p> 
+                     <p style={{ fontSize: "12px", color: "#000" }}>
+                       🏃‍⬅️ Recorrido: {distancia ? `${distancia.toFixed(0)} m` : "Calculando..."}
+                       </p>                    
                   </div>
-                </Popup>
-              </Marker>
-            );
+              </Popup>
+             </Polygon>                                  
+            </>);
           })}
         </MapContainer>
       </div>
